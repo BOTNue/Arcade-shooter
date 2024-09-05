@@ -5,6 +5,7 @@
 #define SCREEN_WIDTH  800
 #define SCREEN_HEIGHT  800
 #define PLAYER_SIZE 20.0f
+#define MAX_BULLETS 10
 
 typedef struct {
     Vector2 position;
@@ -13,6 +14,12 @@ typedef struct {
     float rotation;
     float move_speed;
 } Player;
+
+typedef struct {
+    Vector2 position;
+    Vector2 velocity;
+} Bullet;
+
 
 int main() 
 {
@@ -77,6 +84,23 @@ int main()
 
         player.position.x += (player.velocity.x*player.acceleration);
         player.position.y -= (player.velocity.y*player.acceleration);
+
+        if (player.position.x > SCREEN_WIDTH)
+        {
+            player.position.x = 0;
+        }
+        if (player.position.x < 0)
+        {
+            player.position.x = SCREEN_WIDTH;
+        }
+        if (player.position.y > SCREEN_HEIGHT)
+        {
+            player.position.y = 0;
+        }
+        if (player.position.y < 0)
+        {
+            player.position.y = SCREEN_HEIGHT;
+        }
 
         Vector2 v1 = {player.position.x + sinf(player.rotation*DEG2RAD)*(ship_height), player.position.y - cosf(player.rotation*DEG2RAD)*(ship_height)};
         Vector2 v2 = {player.position.x - cosf(player.rotation*DEG2RAD)*(PLAYER_SIZE/2), player.position.y - sinf(player.rotation*DEG2RAD)*(PLAYER_SIZE/2)};
